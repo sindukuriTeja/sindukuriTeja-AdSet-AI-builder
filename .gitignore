@@ -1,0 +1,9 @@
+node_modules
+.next
+.env.local
+data/*.json
+data/campaigns/*.json
+public/uploads/*
+public/generated/*
+!public/uploads/.gitkeep
+!public/generated/.gitkeep
