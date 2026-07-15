@@ -9,7 +9,10 @@ export const maxDuration = 60;
 export async function POST(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const record = await loadCampaign(id);
-  if (!record) return NextResponse.json({ error: "Not found" }, { status: 404 });
+  if (!record) {
+    console.error(`[generate] Campaign ${id} not found in storage.`);
+    return NextResponse.json({ error: "Not found" }, { status: 404 });
+  }
 
   const body = await req.json().catch(() => ({}));
   const formatIds: string[] = body.formatIds?.length ? body.formatIds : record.campaign.selectedFormatIds;

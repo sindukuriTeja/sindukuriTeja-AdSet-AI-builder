@@ -1,4 +1,4 @@
-﻿import Anthropic from "@anthropic-ai/sdk";
+import Anthropic from "@anthropic-ai/sdk";
 import { AdFormat, BrandKit } from "./types";
 import { contrastRatio, bestTextColor, isHex } from "./colors";
 
@@ -53,7 +53,7 @@ export interface CreativeConcept {
 // ─── Claude client ──────────────────────────────────────────────────────────
 let _client: Anthropic | null = null;
 let _clientBroken = false;
-const CLAUDE_MODEL = "claude-sonnet-4-5";
+const CLAUDE_MODEL = "claude-3-5-sonnet-20241022";
 
 function getClient(): Anthropic | null {
   if (_clientBroken) return null;

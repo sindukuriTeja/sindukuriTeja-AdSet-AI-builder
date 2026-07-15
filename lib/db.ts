@@ -58,6 +58,13 @@ function healStaleTextReadability(variants: CreativeVariant[]): boolean {
 const REDIS_URL = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
 const REDIS_TOKEN = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN;
 const useKV = !!(REDIS_URL && REDIS_TOKEN);
+if (process.env.VERCEL && !useKV) {
+  console.warn(
+    "[db] ⚠️  Running on Vercel without Redis (KV). Campaign data will be lost " +
+    "when serverless functions cold-start or rotate. Set KV_REST_API_URL and " +
+    "KV_REST_API_TOKEN for persistent storage."
+  );
+}
 const INDEX_KEY = "campaigns:index";
 
 // Module-level write-through cache — survives across requests on a warm Lambda.

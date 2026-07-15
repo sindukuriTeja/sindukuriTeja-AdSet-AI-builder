@@ -19,6 +19,17 @@ npm run dev
 Open http://localhost:3000. Create a campaign, upload a hero image + logo,
 pick formats, generate, review, export.
 
+### Vercel / Production persistence
+
+⚠️ **IMPORTANT**: On Vercel, the local filesystem is ephemeral and not shared
+between requests. Without Redis configured, you will see **"Not found"** errors
+when generating ads because the campaign record created in the first step is lost.
+
+To fix this, you **must** connect a Redis store (e.g. Upstash via Vercel KV):
+1. In Vercel, go to **Storage** -> **Create Database** -> **KV**.
+2. Connect it to your project.
+3. This will automatically set `KV_REST_API_URL` and `KV_REST_API_TOKEN`.
+
 ### Runway API key
 
 ⚠️ **The Runway key you pasted in chat has been placed in `.env.local` for
