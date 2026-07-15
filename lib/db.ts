@@ -150,10 +150,15 @@ export async function saveCampaign(record: CampaignRecord): Promise<void> {
   memCache.set(record.campaign.id, record);
 
   if (useKV) {
-    const client = await kv();
-    await client.set(recordKey(record.campaign.id), record);
-    await client.sadd(INDEX_KEY, record.campaign.id);
-    return;
+    try {
+      const client = await kv();
+      await client.set(recordKey(record.campaign.id), record);
+      await client.sadd(INDEX_KEY, record.campaign.id);
+      return;
+    } catch (err) {
+      console.error(`[db] Redis save failed for ${record.campaign.id}:`, err);
+      // Fall through to filesystem as a last-resort backup
+    }
   }
 
   const json = JSON.stringify(record, null, 2);
